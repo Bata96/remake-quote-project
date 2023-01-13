@@ -7,7 +7,15 @@ function App() {
   const [isBoja, setBoja] = useState("");
   const [isLink, setLink] = useState("");
   
- 
+  useEffect(() => {
+    const ocitavanje = () => {
+      setIzreka(skup[Math.round(Math.random() * 20)]);
+      setBoja(boje[Math.round(Math.random() * 19)]);
+    }
+
+    ocitavanje();
+
+  }, [],)
 
   const tvituj = () => {
     let noviTvit = "https://twitter.com/intent/tweet?hashtags=quotes&related=fcc&text=" + encodeURIComponent('"' + isIzreka.text + '"' + " " + isIzreka.name);
