@@ -7,15 +7,17 @@ function App() {
   const [isBoja, setBoja] = useState("");
   const [isLink, setLink] = useState("");
   
-  useEffect(() => {
-    const ocitavanje = () => {
-      setIzreka(skup[Math.round(Math.random() * 20)]);
-      setBoja(boje[Math.round(Math.random() * 19)]);
-    }
+ 
 
-    ocitavanje();
-
-  }, [],)
+  const tvituj = () => {
+    let noviTvit = "https://twitter.com/intent/tweet?hashtags=quotes&related=fcc&text=" + encodeURIComponent('"' + isIzreka.text + '"' + " " + isIzreka.name);
+    setLink(noviTvit);
+  }
+  
+   const novaIzreka = () => {
+    setIzreka(skup[Math.round(Math.random() * 19)]);
+    setBoja(boje[Math.round(Math.random() * 19)]);
+   }
   
   const skup = [
     {name:"Steve Jobs", text:"Your time is limited, so don’t waste it living someone else’s life."},
@@ -63,15 +65,7 @@ function App() {
     {color: "chocolate"}
   ]
 
-  const tvituj = () => {
-    let noviTvit = "https://twitter.com/intent/tweet?hashtags=quotes&related=fcc&text=" + encodeURIComponent('"' + isIzreka.text + '"' + " " + isIzreka.name);
-    setLink(noviTvit);
-  }
   
-   const novaIzreka = () => {
-    setIzreka(skup[Math.round(Math.random() * 19)]);
-    setBoja(boje[Math.round(Math.random() * 19)]);
-   }
    
   return (
       <div id="main" style={{backgroundColor: isBoja.color}}>
