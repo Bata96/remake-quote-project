@@ -1,5 +1,5 @@
 import './App.css';
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import { FaTwitter, FaTumblr, FaQuoteLeft } from "react-icons/fa";
 
 function App() {
@@ -7,27 +7,8 @@ function App() {
   const [isBoja, setBoja] = useState("");
   const [isLink, setLink] = useState("");
   
-  useEffect(() => {
-    const ocitavanje = () => {
-      setIzreka(skup[Math.round(Math.random() * 20)]);
-      setBoja(boje[Math.round(Math.random() * 19)]);
-    }
-
-    ocitavanje();
-
-  }, [],)
-
-  const tvituj = () => {
-    let noviTvit = "https://twitter.com/intent/tweet?hashtags=quotes&related=fcc&text=" + encodeURIComponent('"' + isIzreka.text + '"' + " " + isIzreka.name);
-    setLink(noviTvit);
-  }
   
-   const novaIzreka = () => {
-    setIzreka(skup[Math.round(Math.random() * 19)]);
-    setBoja(boje[Math.round(Math.random() * 19)]);
-   }
-  
-  const skup = [
+  const skup = useMemo(() => [
     {name:"Steve Jobs", text:"Your time is limited, so don’t waste it living someone else’s life."},
     {name:"Jim Rohn", text:"Either you run the day, or the day runs you."},
     {name:"Earl Nightingale", text:"We become what we think about."},
@@ -48,9 +29,9 @@ function App() {
     {name:"Marie Curie", text:"We must believe that we are gifted for something, and that this thing, at whatever cost, must be attained."},
     {name:"Albert Einstein", text:"A person who never made a mistake never tried anything new."},
     {name:"Helen Keller", text:"When one door of happiness closes, another opens, but often we look so long at the closed door that we do not see the one that has been opened for us."}
-  ];
+  ], []);
 
-  const boje = [
+  const boje = useMemo(() => [
     {color: "black"},
     {color: "gray"},
     {color: "orange"},
@@ -71,7 +52,30 @@ function App() {
     {color: "maroon"},
     {color: "midnightblue"},
     {color: "chocolate"}
-  ]
+  ], []);
+  
+  
+
+  useEffect(() => {
+    const ocitavanje = () => {
+      setIzreka(skup[Math.round(Math.random() * 20)]);
+      setBoja(boje[Math.round(Math.random() * 19)]);
+    }
+
+    ocitavanje();
+  }, [skup, boje])
+
+  const tvituj = () => {
+    let noviTvit = "https://twitter.com/intent/tweet?hashtags=quotes&related=fcc&text=" + encodeURIComponent(isIzreka.text + " " + isIzreka.name);
+    setLink(noviTvit);
+  }
+  
+   const novaIzreka = () => {
+    setIzreka(skup[Math.round(Math.random() * 19)]);
+    setBoja(boje[Math.round(Math.random() * 19)]);
+   }
+  
+  
 
   
    
@@ -81,8 +85,8 @@ function App() {
         <p id="text"><FaQuoteLeft/> {isIzreka.text}</p>
         <p id="author">-{isIzreka.name}</p>
       <div className="dugmad">
-        <a style={{backgroundColor: isBoja.color}} href={isLink} title="Tweet this quote!" onClick={tvituj} target="_blank" id="tweet-quote"><FaTwitter className='ikonica'/></a>
-        <a style={{backgroundColor: isBoja.color}} href="https://www.tumblr.com/login" title="Post this quote on tumblr!" target="_blank" id="tumblr-quote"><FaTumblr className='ikonica'/></a>
+        <a style={{backgroundColor: isBoja.color}} href={isLink} title="Tweet this quote!" onClick={tvituj} target="_blank" rel="noreferrer" id="tweet-quote"><FaTwitter className='ikonica'/></a>
+        <a style={{backgroundColor: isBoja.color}} href="https://www.tumblr.com/login" title="Post this quote on tumblr!" target="_blank" rel="noreferrer" id="tumblr-quote"><FaTumblr className='ikonica'/></a>
         <button style={{backgroundColor: isBoja.color}} id="new-quote" onClick={novaIzreka}>New quote</button>
       </div> 
       </div>
